@@ -2,40 +2,51 @@
 // This is only a SKELETON file for the 'Protein Translation' exercise. It's been provided as a
 // convenience to get you started writing code faster.
 //
-//export const translate = (sequence) => {
-const translate = (input) => {
-    let translations = [];
+export const translate = (sequence) => {
+    let protein = [];
     let codons = [];
+    let stopCodons = ["UAA", "UAG", "UGA"];
 
-    /* *** WIP ***
-     * 
-     */
     let spliceSequence = () => {
-        for (i = 0; i < 9; i += 3) {
-            codons.push(input.substr(i, 3));
-        };
-    };
-    spliceSequence(input);
-    console.log(codons);
-
-    let translateCodons = (codons) => {
-        let translation;
-        for (codon of codons) {
-            switch (codon) {
-                case "AUG":
-                    translation = "Methionine";
-                    break;
-                case "UGG":
-                    translation = "Tryptophan";
-                    break;
-                default:
-                    break;
+        try {
+            for (let i = 0; i < sequence.length; i += 3) {
+                if (i <= sequence.length - 3) {
+                    codons.push(sequence.substr(i, 3));
+                } else {
+                    return
+                }
             }
-            translations.push(translation);
+        } catch (e) {
+            console.log(e)
         }
     }
-    translateCodons();
-    console.log(translations);
-};
 
-translate("ABCDEFGHIJKL");
+    let translateCodons = () => {
+        let translation;
+        for (codon of codons) {
+            if (stopCodons.includes(codon)) {
+                return;
+            } else if (codon == "AUG") {
+                translation = "Methionine"
+            } else if (codon == "UUU" || "UUC") {
+                translation = "Phenylalanine"
+            } else if (codon == "UUA" || "UUG") {
+                translation = "Leucine"
+            } else if (codon == "UCU" || "UCC" || "UCA" || "UCG") {
+                translation = "Serine"
+            } else if (codon == "UAU" || "UAC") {
+                translation = "Tyrosine"
+            } else if (codon == "UGU" || "UGC") {
+                translation = "Cysteine"
+            } else if (codon == "UGG") {
+                translation = "Tryptophan"
+            } else {
+                throw Error("Invalid codon")
+            }
+            protein.push(translation);
+        }
+    }
+    spliceSequence()
+    translateCodons()
+    return protein
+};
