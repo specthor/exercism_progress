@@ -3,15 +3,6 @@
 // convenience to get you started writing code faster.
 //
 
-export const twoFer = (input) => {
-    let X;
-    let name = input;
-
-    if (name == null) {
-        X = "you";
-    } else {
-        X = name;
-    }
-
-    return "One for " + X + ", one for me.";
+export const twoFer = (name = "you") => {
+    return `One for ${name}, one for me.`;
 };
